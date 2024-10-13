@@ -1,8 +1,8 @@
-#PeriodicElementAPI
+# PeriodicElementAPI
 
 This API provides information about chemical elements from the periodic table based on their name, atomic number, or symbol. The API returns data such as the element's atomic mass, group, period, electronic configuration, and common uses.
 
-##Features
+## Features
 
 Query elements by name, atomic number, or symbol.
 
@@ -11,16 +11,16 @@ Returns detailed information in JSON format.
 Free and open-source.
 
 
-#Usage
+# Usage
 
-##API Endpoints
+## API Endpoints
 
 1. Get element by name:
 ```
 GET http://api-uzair.rf.gd/PeriodicElement/api.php?name={element_name}
 ```
 Example:
-``
+```
 GET http://api-uzair.rf.gd/PeriodicElement/api.php?name=Hydrogen
 ```
 
@@ -43,7 +43,7 @@ GET http://api-uzair.rf.gd/PeriodicElement/api.php?symbol=H
 ```
 
 
-Response Example
+## Response Example
 ```json
 {
     "name": "Hydrogen",
@@ -61,7 +61,7 @@ Response Example
     ]
 }
 ```
-##Usage in HTML
+## Usage in HTML
 
 To fetch element data using this API in an HTML page, you can use the following JavaScript example:
 ```
@@ -94,11 +94,11 @@ Example Output:
 
 When you click the button, it will display Hydrogen's data in the <pre> block in a formatted JSON structure.
 
-##Contributing
+## Contributing
 
 Feel free to fork the repository and submit pull requests. Contributions are welcome!
 
-#Credits
+# Credits
 
 API created by UzairDeveloper223
 
@@ -107,7 +107,7 @@ Made using PHP.
 Hosted on InfinityFree.
 
 
-#License
+# License
 
-This project is licensed under the MIT License. See the [LICENSE] file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
