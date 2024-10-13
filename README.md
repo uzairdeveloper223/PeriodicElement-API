@@ -17,29 +17,29 @@ Free and open-source.
 
 1. Get element by name:
 ```
-GET http://api-uzair.rf.gd/PeriodicElement/api.php?name={element_name}
+http://api-uzair.rf.gd/PeriodicElement/api.php?name={element_name}
 ```
 Example:
 ```
-GET http://api-uzair.rf.gd/PeriodicElement/api.php?name=Hydrogen
+http://api-uzair.rf.gd/PeriodicElement/api.php?name=Hydrogen
 ```
 
 2. Get element by atomic number:
 ```
-GET http://api-uzair.rf.gd/PeriodicElement/api.php?number={atomic_number}
+http://api-uzair.rf.gd/PeriodicElement/api.php?number={atomic_number}
 ```
 Example:
 ```
-GET http://api-uzair.rf.gd/PeriodicElement/api.php?number=1
+http://api-uzair.rf.gd/PeriodicElement/api.php?number=1
 ```
 
 3. Get element by symbol:
 ```
-GET http://api-uzair.rf.gd/PeriodicElement/api.php?symbol={element_symbol}
+http://api-uzair.rf.gd/PeriodicElement/api.php?symbol={element_symbol}
 ```
 Example:
 ```
-GET http://api-uzair.rf.gd/PeriodicElement/api.php?symbol=H
+http://api-uzair.rf.gd/PeriodicElement/api.php?symbol=H
 ```
 
 
