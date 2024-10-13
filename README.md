@@ -64,7 +64,7 @@ GET http://api-uzair.rf.gd/PeriodicElement/api.php?symbol=H
 ## Usage in HTML
 
 To fetch element data using this API in an HTML page, you can use the following JavaScript example:
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
