@@ -92,7 +92,7 @@ To fetch element data using this API in an HTML page, you can use the following 
 ```
 Example Output:
 
-When you click the button, it will display Hydrogen's data in the <pre> block in a formatted JSON structure.
+When you click the button, it will display Hydrogen's data in the "<pre>" block in a formatted JSON structure.
 
 ## Contributing
 
