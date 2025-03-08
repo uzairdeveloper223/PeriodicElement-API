@@ -1,8 +1,10 @@
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonifyfrom 
+from flask_cors import CORS
 import json
 
 app = Flask(__name__)
+CORS(app)
 
 # Load periodic table data from data.json
 with open("data.json", "r", encoding="utf-8") as file:
