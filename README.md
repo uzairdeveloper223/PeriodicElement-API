@@ -15,17 +15,17 @@ This API provides detailed information about chemical elements from the periodic
 # 📌 API Endpoints
 
 # 1️⃣ Get element by name
-
+```
 https://periodicelement-api-production.up.railway.app/api?name={element_name}
-
+```
 Example:
 ```
 https://periodicelement-api-production.up.railway.app/api?name=Hydrogen
 ```
 # 2️⃣ Get element by atomic number
-
+```
 https://periodicelement-api-production.up.railway.app/api?number={atomic_number}
-
+```
 Example:
 ```
 https://periodicelement-api-production.up.railway.app/api?number=1
