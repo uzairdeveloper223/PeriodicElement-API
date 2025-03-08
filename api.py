@@ -4,7 +4,9 @@ from flask_cors import CORS
 import json
 
 app = Flask(__name__)
-CORS(app)
+
+# Allow requests from any domain
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Load periodic table data from data.json
 with open("data.json", "r", encoding="utf-8") as file:
