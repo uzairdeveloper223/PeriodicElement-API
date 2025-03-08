@@ -1,69 +1,80 @@
-# PeriodicElementAPI
+## PeriodicElementAPI🌟
 
-This API provides information about chemical elements from the periodic table based on their name, atomic number, or symbol. The API returns data such as the element's atomic mass, group, period, electronic configuration, and common uses.
+This API provides detailed information about chemical elements from the periodic table based on their name, atomic number, or symbol.
 
-## Features
-
-Query elements by name, atomic number, or symbol.
-
-Returns detailed information in JSON format.
-
-Free and open-source.
+# 📢 Features:
+✅ Query elements by name, atomic number, or symbol.
+✅ Returns structured JSON data.
+✅ Free & open-source!
 
 
-# Usage
+---
 
-## API Endpoints
+## 🚀 Usage
 
-1. Get element by name:
+# 📌 API Endpoints
+
+# 1️⃣ Get element by name
+
+https://periodicelement-api-production.up.railway.app/api?name={element_name}
+
+Example:
 ```
-http://api-uzair.rf.gd/PeriodicElement/api.php?name={element_name}
+https://periodicelement-api-production.up.railway.app/api?name=Hydrogen
+```
+# 2️⃣ Get element by atomic number
+
+https://periodicelement-api-production.up.railway.app/api?number={atomic_number}
+
+Example:
+```
+https://periodicelement-api-production.up.railway.app/api?number=1
+```
+# 3️⃣ Get element by symbol
+```
+https://periodicelement-api-production.up.railway.app/api?symbol={element_symbol}
 ```
 Example:
 ```
-http://api-uzair.rf.gd/PeriodicElement/api.php?name=Hydrogen
+https://periodicelement-api-production.up.railway.app/api?symbol=H
 ```
 
-2. Get element by atomic number:
-```
-http://api-uzair.rf.gd/PeriodicElement/api.php?number={atomic_number}
-```
-Example:
-```
-http://api-uzair.rf.gd/PeriodicElement/api.php?number=1
+---
+
+## 📡 cURL Example
+
+You can fetch element data directly from the terminal using curl:
+```bash
+curl -X GET "https://periodicelement-api-production.up.railway.app/api?name=Hydrogen"
 ```
 
-3. Get element by symbol:
-```
-http://api-uzair.rf.gd/PeriodicElement/api.php?symbol={element_symbol}
-```
-Example:
-```
-http://api-uzair.rf.gd/PeriodicElement/api.php?symbol=H
-```
+---
 
-
-## Response Example
+## 📊 Response Example
 ```json
 {
-    "name": "Hydrogen",
-    "symbol": "H",
-    "atomicNumber": 1,
-    "atomicMass": 1.008,
-    "groupBlock": "Nonmetal",
-    "period": 1,
-    "electronicConfiguration": "1s1",
-    "yearDiscovered": 1766,
-    "purposes": [
-        "Fuel in rockets",
-        "Production of ammonia for fertilizers",
-        "Hydrogenation of fats and oils"
-    ]
+  "atomicMass": 1.008,
+  "atomicNumber": 1,
+  "electronicConfiguration": "1s1",
+  "footer": "Made by Developer Uzair. If you see a bug or want to request something more, email: uzairdeveloper@proton.me",
+  "groupBlock": "Nonmetal",
+  "name": "Hydrogen",
+  "period": 1,
+  "purposes": [
+    "Fuel in rockets",
+    "Production of ammonia for fertilizers",
+    "Hydrogenation of fats and oils"
+  ],
+  "symbol": "H",
+  "yearDiscovered": 1766
 }
 ```
-## Usage in HTML
 
-To fetch element data using this API in an HTML page, you can use the following JavaScript example:
+---
+
+## 🖥️ Usage in HTML
+
+To fetch element data dynamically in an HTML page:
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -71,15 +82,20 @@ To fetch element data using this API in an HTML page, you can use the following 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Periodic Element API Example</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; text-align: left; }
+        button { padding: 10px 15px; background: #007bff; color: white; border: none; cursor: pointer; }
+    </style>
 </head>
 <body>
-    <h1>Fetch Element Data</h1>
+    <h1>🔬 Fetch Element Data</h1>
     <button onclick="fetchElementData()">Get Hydrogen Info</button>
-    <pre id="result"></pre>
+    <pre id="result">Click the button to fetch data...</pre>
 
     <script>
         function fetchElementData() {
-            fetch('http://api-uzair.rf.gd/PeriodicElement/api.php?name=Hydrogen')
+            fetch('https://periodicelement-api-production.up.railway.app/api?name=Hydrogen')
             .then(response => response.json())
             .then(data => {
                 document.getElementById('result').textContent = JSON.stringify(data, null, 2);
@@ -90,24 +106,30 @@ To fetch element data using this API in an HTML page, you can use the following 
 </body>
 </html>
 ```
-Example Output:
-
-When you click the button, it will display Hydrogen's data in the ```<pre>``` block in a formatted JSON structure.
-
-## Contributing
-
-Feel free to fork the repository and submit pull requests. Contributions are welcome!
-
-# Credits
-
-API created by UzairDeveloper223
-
-Made using PHP.
-
-Hosted on InfinityFree.
+🔹 Example Output:
+When you click the button, it will display Hydrogen’s data in the <pre> block.
 
 
-# License
+---
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+## 🛠 Contributing
+
+✅ Feel free to fork the repository & submit pull requests!
+✅ Contributions are welcome!
+
+
+---
+
+## 👨‍💻 Credits
+
+🔹 API created by **UzairDeveloper223**
+🔹 Developed in **Python and JSON**
+🔹 Hosted on **Railway**
+
+
+---
+
+## 📜 License
+
+📄 This project is licensed under the MIT License. See the LICENSE file for details.
 
