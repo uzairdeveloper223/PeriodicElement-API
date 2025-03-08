@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 import json
 
@@ -34,8 +35,9 @@ def get_element():
 def format_response(element):
     """Adds footer message to response."""
     response = element.copy()
-    response["footer"] = "Made by Developer Uzair with help of ChatGPT. If you see a bug or want to request something more, email: uzairdeveloper@proton.me"
+    response["footer"] = "Made by Developer Uzair. If you see a bug or want to request something more, email: uzairdeveloper@proton.me"
     return response
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# Set port from environment variable for Railway
+PORT = int(os.environ.get("PORT", 5000))
+app.run(host="0.0.0.0", port=PORT)
