@@ -83,24 +83,93 @@ To fetch element data dynamically in an HTML page:
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Periodic Element API Example</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; text-align: left; }
-        button { padding: 10px 15px; background: #007bff; color: white; border: none; cursor: pointer; }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            color: #007bff;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            padding: 10px 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            word-wrap: break-word;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #007bff;
+            color: white;
+        }
     </style>
 </head>
 <body>
-    <h1>🔬 Fetch Element Data</h1>
-    <button onclick="fetchElementData()">Get Hydrogen Info</button>
-    <pre id="result">Click the button to fetch data...</pre>
+    <div class="container">
+        <h1>🔬 Periodic Element API</h1>
+        <button onclick="fetchElementData()">Get Hydrogen Info</button>
+        <div id="result">Click the button to fetch data...</div>
+    </div>
 
     <script>
         function fetchElementData() {
             fetch('https://periodicelement-api-production.up.railway.app/api?name=Hydrogen')
             .then(response => response.json())
             .then(data => {
-                document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+                let output = `
+                    <h2>${data.name} (${data.symbol})</h2>
+                    <table>
+                        <tr><th>Atomic Number</th><td>${data.atomicNumber}</td></tr>
+                        <tr><th>Atomic Mass</th><td>${data.atomicMass}</td></tr>
+                        <tr><th>Electron Configuration</th><td>${data.electronicConfiguration}</td></tr>
+                        <tr><th>Group</th><td>${data.groupBlock}</td></tr>
+                        <tr><th>Period</th><td>${data.period}</td></tr>
+                        <tr><th>Year Discovered</th><td>${data.yearDiscovered}</td></tr>
+                        <tr><th>Purposes</th><td>${data.purposes.join(', ')}</td></tr>
+                        <tr><th>Footer</th><td>${data.footer}</td></tr>
+                    </table>
+                `;
+                document.getElementById('result').innerHTML = output;
             })
-            .catch(error => console.error('Error fetching data:', error));
+            .catch(error => {
+                document.getElementById('result').innerHTML = `<p style="color: red;">Error fetching data!</p>`;
+                console.error('Error fetching data:', error);
+            });
         }
     </script>
 </body>
