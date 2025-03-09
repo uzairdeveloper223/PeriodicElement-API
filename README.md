@@ -10,36 +10,147 @@ This API provides detailed information about chemical elements from the periodic
 
 ---
 
-## 🚀 Usage
+## 🔍 Search for an Element
 
-# 📌 API Endpoints
+# 1️⃣ Search by Name
 
-# 1️⃣ Get element by name
+URL:
 ```
-https://periodicelement-api-production.up.railway.app/api?name={element_name}
+https://periodicelement-api-production.up.railway.app/api?name=hydrogen
 ```
-Example:
-```
-https://periodicelement-api-production.up.railway.app/api?name=Hydrogen
-```
-# 2️⃣ Get element by atomic number
-```
-https://periodicelement-api-production.up.railway.app/api?number={atomic_number}
-```
-Example:
-```
-https://periodicelement-api-production.up.railway.app/api?number=1
-```
-# 3️⃣ Get element by symbol
-```
-https://periodicelement-api-production.up.railway.app/api?symbol={element_symbol}
-```
-Example:
+🔹 Returns full data of Hydrogen.
+
+# 2️⃣ Search by Symbol
+
+URL:
 ```
 https://periodicelement-api-production.up.railway.app/api?symbol=H
 ```
+🔹 Returns full data of Hydrogen.
+
+# 3️⃣ Search by Atomic Number
+
+URL:
+```
+https://periodicelement-api-production.up.railway.app/api?number=1
+```
+🔹 Returns full data of Hydrogen.
+
+# 4️⃣ Summary Only for an Element
+
+URL:
+```
+https://periodicelement-api-production.up.railway.app/api?name=hydrogen&summaryOnly=true
+
+🔹 Returns only the summary of Hydrogen.
+```
 
 ---
+
+# 📜 Get All Elements
+
+URL:
+```
+https://periodicelement-api-production.up.railway.app/api?all=true
+```
+🔹 Returns all elements in the database.
+
+
+---
+
+## 🎲 Random Element Features
+
+# 5️⃣ Get a Random Element
+
+URL:
+```
+https://periodicelement-api-production.up.railway.app/api?random=true
+```
+🔹 Returns a random element from the database.
+
+# 6️⃣ Get Summary of a Random Element
+
+URL:
+```
+https://periodicelement-api-production.up.railway.app/api?random=true&summaryOnly=true
+```
+🔹 Returns only the summary of a random element.
+
+
+---
+
+## 🔔 Example Responses
+
+# ✅ Full Element Data
+```
+{
+    "name": "Hydrogen",
+    "appearance": "colorless gas",
+    "atomic_mass": 1.008,
+    "boil": 20.271,
+    "category": "diatomic nonmetal",
+    "density": 0.08988,
+    "discovered_by": "Henry Cavendish",
+    "melt": 13.99,
+    "molar_heat": 28.836,
+    "named_by": "Antoine Lavoisier",
+    "number": 1,
+    "period": 1,
+    "phase": "Gas",
+    "source": "https://en.wikipedia.org/wiki/Hydrogen",
+    "spectral_img": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Hydrogen_Spectra.jpg",
+    "summary": "Hydrogen is a chemical element with symbol H and atomic number 1. It is the lightest element in the periodic table.",
+    "symbol": "H",
+    "xpos": 1,
+    "ypos": 1,
+    "shells": [1],
+    "electron_configuration": "1s1",
+    "electron_affinity": 72.769,
+    "electronegativity_pauling": 2.2,
+    "ionization_energies": [1312],
+    "cpk-hex": "ffffff",
+    "footer": "Made by Developer Uzair. If you see a bug or want to request something more, email: uzairdeveloper@proton.me"
+}
+```
+
+---
+
+# ✅ Summary Only Response
+```
+{
+    "summary": "Hydrogen is a chemical element with symbol H and atomic number 1. It is the lightest element in the periodic table."
+}
+```
+
+---
+
+## 🔴 Error Handling
+
+❌ Invalid Atomic Number
+
+URL:
+```
+https://periodicelement-api-production.up.railway.app//api?number=abc
+```
+🔹 Response:
+```
+{
+    "error": "Invalid atomic number format."
+}
+```
+# ❌ Element Not Found
+
+URL:
+```
+https://periodicelement-api-production.up.railway.app/api?name=unknown_element
+```
+🔹 Response:
+```json
+{
+    "error": "Element not found!"
+}
+```
+
 
 ## 📡 cURL Example
 
@@ -50,25 +161,6 @@ curl -X GET "https://periodicelement-api-production.up.railway.app/api?name=Hydr
 
 ---
 
-## 📊 Response Example
-```json
-{
-  "atomicMass": 1.008,
-  "atomicNumber": 1,
-  "electronicConfiguration": "1s1",
-  "footer": "Made by Developer Uzair. If you see a bug or want to request something more, email: uzairdeveloper@proton.me",
-  "groupBlock": "Nonmetal",
-  "name": "Hydrogen",
-  "period": 1,
-  "purposes": [
-    "Fuel in rockets",
-    "Production of ammonia for fertilizers",
-    "Hydrogenation of fats and oils"
-  ],
-  "symbol": "H",
-  "yearDiscovered": 1766
-}
-```
 
 ---
 
@@ -81,7 +173,7 @@ To fetch element data dynamically in an HTML page:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Periodic Element API Example</title>
+    <title>Periodic Element API</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -108,6 +200,7 @@ To fetch element data dynamically in an HTML page:
             cursor: pointer;
             border-radius: 5px;
             font-size: 16px;
+            margin: 5px;
         }
         button:hover {
             background: #0056b3;
@@ -137,39 +230,75 @@ To fetch element data dynamically in an HTML page:
             background: #007bff;
             color: white;
         }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 70%;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🔬 Periodic Element API</h1>
-        <button onclick="fetchElementData()">Get Hydrogen Info</button>
-        <div id="result">Click the button to fetch data...</div>
+        <input type="text" id="elementInput" placeholder="Enter element name or symbol...">
+        <button onclick="fetchElement()">Search</button>
+        <button onclick="fetchRandomElement()">Get Random Element</button>
+        <div id="result">Enter an element name or click a button...</div>
     </div>
 
     <script>
-        function fetchElementData() {
-            fetch('https://periodicelement-api-production.up.railway.app/api?name=Hydrogen')
+        function fetchElement() {
+            let element = document.getElementById("elementInput").value.trim();
+            if (!element) {
+                document.getElementById("result").innerHTML = `<p style="color: red;">Please enter an element name or symbol.</p>`;
+                return;
+            }
+
+            fetch(`https://periodicelement-api-production.up.railway.app/api?name=${element}`)
             .then(response => response.json())
-            .then(data => {
-                let output = `
-                    <h2>${data.name} (${data.symbol})</h2>
-                    <table>
-                        <tr><th>Atomic Number</th><td>${data.atomicNumber}</td></tr>
-                        <tr><th>Atomic Mass</th><td>${data.atomicMass}</td></tr>
-                        <tr><th>Electron Configuration</th><td>${data.electronicConfiguration}</td></tr>
-                        <tr><th>Group</th><td>${data.groupBlock}</td></tr>
-                        <tr><th>Period</th><td>${data.period}</td></tr>
-                        <tr><th>Year Discovered</th><td>${data.yearDiscovered}</td></tr>
-                        <tr><th>Purposes</th><td>${data.purposes.join(', ')}</td></tr>
-                        <tr><th>Footer</th><td>${data.footer}</td></tr>
-                    </table>
-                `;
-                document.getElementById('result').innerHTML = output;
-            })
-            .catch(error => {
-                document.getElementById('result').innerHTML = `<p style="color: red;">Error fetching data!</p>`;
-                console.error('Error fetching data:', error);
-            });
+            .then(data => displayElementData(data))
+            .catch(error => showError(error));
+        }
+
+        function fetchRandomElement() {
+            fetch('https://periodicelement-api-production.up.railway.app/api?random=true')
+            .then(response => response.json())
+            .then(data => displayElementData(data))
+            .catch(error => showError(error));
+        }
+
+        function displayElementData(data) {
+            if (data.error) {
+                document.getElementById('result').innerHTML = `<p style="color: red;">${data.error}</p>`;
+                return;
+            }
+
+            let output = `
+                <h2>${data.name} (${data.symbol})</h2>
+                <table>
+                    <tr><th>Atomic Number</th><td>${data.number}</td></tr>
+                    <tr><th>Atomic Mass</th><td>${data.atomic_mass}</td></tr>
+                    <tr><th>Electron Configuration</th><td>${data.electron_configuration}</td></tr>
+                    <tr><th>Category</th><td>${data.category}</td></tr>
+                    <tr><th>Period</th><td>${data.period}</td></tr>
+                    <tr><th>Density</th><td>${data.density ? data.density + " g/cm³" : "N/A"}</td></tr>
+                    <tr><th>Melting Point</th><td>${data.melt ? data.melt + " K" : "N/A"}</td></tr>
+                    <tr><th>Boiling Point</th><td>${data.boil ? data.boil + " K" : "N/A"}</td></tr>
+                    <tr><th>Summary</th><td>${data.summary}</td></tr>
+                    <tr><th>Discovered By</th><td>${data.discovered_by || "Unknown"}</td></tr>
+                    <tr><th>More Info</th><td><a href="${data.source}" target="_blank">Wikipedia</a></td></tr>
+                    <tr><th>Footer</th><td>${data.footer || "Made by UzairDeveloper223"}</td></tr>
+                </table>
+            `;
+            document.getElementById('result').innerHTML = output;
+        }
+
+        function showError(error) {
+            document.getElementById('result').innerHTML = `<p style="color: red;">Error fetching data!</p>`;
+            console.error('Error fetching data:', error);
         }
     </script>
 </body>
