@@ -350,7 +350,7 @@ To fetch element data dynamically in an HTML page:
 
 ---
 
-## 🌐 Your Other Projects
+## 🌐 Other Projects
 
 Check out more projects by Developer Uzair:
 - 🌍 **ChatX**: [chatx-orcin.vercel.app](https://chatx-orcin.vercel.app/)
