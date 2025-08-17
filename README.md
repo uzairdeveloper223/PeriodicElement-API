@@ -354,7 +354,8 @@ To fetch element data dynamically in an HTML page:
 
 Check out more projects by Developer Uzair:
 - 🌍 **ChatX**: [chatx-orcin.vercel.app](https://chatx-orcin.vercel.app/)
-- 📸 **FireGram**: [firegram.rf.gd](https://firegram.rf.gd)
+- ❔ **Mystery Mart** : [Mystery Mart](https://mystery-mart-app.vercel.app)
+- 📸 **FireGram**: [Firegram](https://firegram-social-app.vercel.app/)
 - ℹ️ **Info Hub**: [info-here.rf.gd](https://info-here.rf.gd)
 - 🔧 **Tools**: [for-myuse.infinityfreeapp.com](https://for-myuse.infinityfreeapp.com)
 
