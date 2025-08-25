@@ -21,7 +21,6 @@ export const metadata: Metadata = {
   title: "Periodic Elements API - Lightning Fast Chemical Data",
   description:
     "Access detailed information about chemical elements with our high-performance API powered by Cloudflare Workers. Get element data by name, symbol, or atomic number.",
-  generator: "v0.app",
 }
 
 export default function RootLayout({
