@@ -343,7 +343,7 @@ To fetch element data dynamically in an HTML page:
 
 ## 👨‍💻 Credits
 
-🔹 API created by **Developer Uzair** (uzairdeveloper@proton.me)
+🔹 API created by **Developer Uzair** (contact@uzair.is-a.dev)
 🔹 Originally developed in **Python/Flask**
 🔹 **NEW**: Migrated to **JavaScript/Cloudflare Workers** for better performance
 🔹 Hosted on **Cloudflare Workers** global edge network
@@ -369,7 +369,7 @@ Check out more projects by Developer Uzair:
 
 ## 📞 Support & Contact
 
-- 📧 **Email**: uzairdeveloper@proton.me
+- 📧 **Email**: contact@uzair.is-a.dev
 - 🐛 **Bug Reports**: Found a bug? Email us!
 - 💡 **Feature Requests**: Have an idea? We'd love to hear it!
 - ⭐ **Rate Limiting**: Free tier includes 100,000 requests per day
