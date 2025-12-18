@@ -423,7 +423,7 @@ export default function PeriodicAPIPage() {
               <span className="font-medium text-foreground">Cloudflare Workers</span>
             </p>
             <div className="flex justify-center gap-4 text-sm">
-              <a href="mailto:uzairdeveloper@proton.me" className="text-primary hover:underline">
+              <a href="mailto:contact@uzair.is-a.dev" className="text-primary hover:underline">
                 Contact
               </a>
               <span className="text-muted-foreground">•</span>
