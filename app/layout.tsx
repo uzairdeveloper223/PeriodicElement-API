@@ -21,6 +21,10 @@ export const metadata: Metadata = {
   title: "Periodic Elements API - Lightning Fast Chemical Data",
   description:
     "Access detailed information about chemical elements with our high-performance API powered by Cloudflare Workers. Get element data by name, symbol, or atomic number.",
+  icons: {
+    icon: '/favicon.ico', // Points to /public/favicon.ico
+    // apple: '/apple-icon.png', // Optional: for Apple devices
+  },
 }
 
 export default function RootLayout({
