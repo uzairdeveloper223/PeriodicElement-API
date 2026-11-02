@@ -5,7 +5,7 @@ A fast, free, open-source REST API for looking up chemical elements by **name**,
 **Base URL**
 
 ```
-https://periodic-elements-api.periodic-elements-api.workers.dev/api
+https://periodic.uzairmugakh90.workers.dev/api
 ```
 
 ---
@@ -39,7 +39,7 @@ All endpoints are `GET` requests on `/api` and take query parameters.
 ### Quick start with cURL
 
 ```bash
-curl "https://periodic-elements-api.periodic-elements-api.workers.dev/api?name=hydrogen"
+curl "https://periodic.uzairmugakh90.workers.dev/api?name=hydrogen"
 ```
 
 ---
@@ -100,7 +100,7 @@ curl "https://periodic-elements-api.periodic-elements-api.workers.dev/api?name=h
 ### JavaScript
 
 ```js
-const API_BASE = "https://periodic-elements-api.periodic-elements-api.workers.dev/api";
+const API_BASE = "https://periodic.uzairmugakh90.workers.dev/api";
 
 async function getElement(query) {
   // Try by name first, fall back to symbol
@@ -122,7 +122,7 @@ getElement("oxygen").then(console.log);
 ```python
 import requests
 
-API = "https://periodic-elements-api.periodic-elements-api.workers.dev/api"
+API = "https://periodic.uzairmugakh90.workers.dev/api"
 
 r = requests.get(API, params={"number": 6})
 print(r.json()["name"])  # Carbon
@@ -131,7 +131,7 @@ print(r.json()["name"])  # Carbon
 ### Bash
 
 ```bash
-curl -s "https://periodic-elements-api.periodic-elements-api.workers.dev/api?random=true&summaryOnly=true" | jq -r .summary
+curl -s "https://periodic.uzairmugakh90.workers.dev/api?random=true&summaryOnly=true" | jq -r .summary
 ```
 
 ---

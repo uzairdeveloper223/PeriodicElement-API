@@ -1,0 +1,10 @@
+name = "periodic"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# Serve on <name>.<account-subdomain>.workers.dev
+workers_dev = true
+
+# Logs and basic request metrics in the Cloudflare dashboard
+[observability]
+enabled = true

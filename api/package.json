@@ -1,0 +1,38 @@
+{
+  "name": "periodic-elements-api",
+  "version": "2.0.0",
+  "description": "Free, open-source periodic table REST API running on Cloudflare Workers",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "keywords": [
+    "periodic-table",
+    "chemistry",
+    "elements",
+    "api",
+    "rest",
+    "cloudflare-workers"
+  ],
+  "author": "Uzair Mughal <contact@uzair.is-a.dev> (https://uzair.is-a.dev)",
+  "license": "MIT",
+  "homepage": "https://github.com/uzairdeveloper223/PeriodicElement-API#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uzairdeveloper223/PeriodicElement-API.git"
+  },
+  "bugs": {
+    "url": "https://github.com/uzairdeveloper223/PeriodicElement-API/issues"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "workerd"]
+  }
+}
