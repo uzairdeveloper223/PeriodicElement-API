@@ -213,6 +213,43 @@ dialog::backdrop{background:rgba(0,0,0,.4);backdrop-filter:blur(2px);animation:f
 .snack .btn{color:var(--primary);height:36px}
 :root:not([data-theme="dark"]) .snack .btn{color:#D0BCFF}
 @media(min-width:840px){.snack{bottom:24px}}
+.icon-btn svg{width:24px;height:24px;fill:currentColor}
+a.icon-btn,a.btn{text-decoration:none}
+
+/* ---------- Table tools + mobile list layout ---------- */
+.table-tools{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.table-tools .field{flex:1 1 240px;height:48px}
+.pt.list{grid-template-columns:repeat(auto-fill,minmax(76px,1fr));grid-auto-rows:80px;min-width:0;gap:6px}
+.pt.list .cell{grid-area:auto!important;padding:8px 10px;border-radius:16px}
+.pt.list .cell .n{font-size:11px}
+.pt.list .cell .s{font-size:24px}
+.pt.list .cell .m{font-size:10px}
+.pt.list .cell.dim{display:none}
+.pt.list .cell:hover{transform:none}
+.pt-empty{display:none;text-align:center;padding:32px;color:var(--on-surface-variant)}
+
+/* ---------- About / repo footer ---------- */
+.about{margin-top:40px;padding:20px 24px;border-radius:28px;background:var(--sc-low);display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.about .who{font-size:14px;line-height:20px;color:var(--on-surface-variant)}
+.about .who b{display:block;font-size:16px;font-weight:500;color:var(--on-surface)}
+.about .acts{display:flex;gap:8px;flex-wrap:wrap}
+.btn svg{width:18px;height:18px;fill:currentColor}
+
+@media(max-width:839px){
+  .legend{flex-wrap:nowrap;overflow-x:auto;margin:0 -16px 16px;padding:0 16px;scrollbar-width:none}
+  .legend::-webkit-scrollbar{display:none}
+  .legend .chip{flex:none}
+}
+@media(max-width:600px){
+  .headline{font-size:28px;line-height:36px}
+  .top-bar h1{font-size:20px}
+  .table-tools .seg{width:100%}
+  .table-tools .seg button{flex:1;justify-content:center}
+  .pt.list{grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:76px}
+  dialog{margin:auto 0 0;width:100%;max-width:100%;max-height:92vh;border-radius:28px 28px 0 0}
+  .dlg-body{max-height:calc(92vh - 64px)}
+  .about{flex-direction:column;align-items:flex-start}
+}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -220,6 +257,7 @@ dialog::backdrop{background:rgba(0,0,0,.4);backdrop-filter:blur(2px);animation:f
 <div class="app">
   <header class="top-bar" id="topbar">
     <h1><span class="logo"><span class="icon fill">science</span></span>Periodic Elements</h1>
+    <a class="icon-btn ripple" href="https://github.com/uzairdeveloper223/PeriodicElement-API" target="_blank" rel="noopener" aria-label="View source on GitHub" title="GitHub repository"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
     <button class="icon-btn ripple" id="themeBtn" aria-label="Toggle theme"><span class="icon" id="themeIcon">dark_mode</span></button>
     <div class="progress-linear" id="linear"></div>
   </header>
@@ -264,9 +302,24 @@ dialog::backdrop{background:rgba(0,0,0,.4);backdrop-filter:blur(2px);animation:f
     <section class="view" id="view-table">
       <h2 class="headline">Periodic table</h2>
       <p class="sub">Tap any element for the full details. Filter by category below.</p>
+      <div class="table-tools">
+        <label class="field"><span class="icon lead">filter_list</span><input id="tq" placeholder="Filter by name, symbol or number" aria-label="Filter elements"></label>
+        <div class="seg" id="layout" role="group" aria-label="Layout">
+          <button type="button" class="ripple" data-l="periodic"><span class="icon">check</span>Periodic</button>
+          <button type="button" class="ripple" data-l="list"><span class="icon">check</span>Grid</button>
+        </div>
+      </div>
       <div class="chips legend" id="legend"></div>
       <div id="out-table"></div>
     </section>
+    <footer class="about">
+      <div class="who"><b>Periodic Elements</b>Open source, made by Uzair Mughal (@uzairdeveloper223)</div>
+      <div class="acts">
+        <a class="btn filled ripple" href="https://github.com/uzairdeveloper223/PeriodicElement-API" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>View on GitHub</a>
+        <a class="btn tonal ripple" href="https://github.com/uzairdeveloper223/PeriodicElement-API/issues" target="_blank" rel="noopener"><span class="icon">bug_report</span>Report an issue</a>
+        <a class="btn text ripple" href="https://uzair.is-a.dev" target="_blank" rel="noopener"><span class="icon">language</span>Website</a>
+      </div>
+    </footer>
   </main>
 
   <nav class="nav" aria-label="Primary">
@@ -288,7 +341,7 @@ const store = {
   get(k, d){ try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
   set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
 };
-const state = { mode: 'auto', summary: false, all: null, filter: null };
+const state = { mode: 'auto', summary: false, all: null, filter: null, tq: '', layout: matchMedia('(max-width: 839px)').matches ? 'list' : 'periodic' };
 
 /* ---------- Ripple ---------- */
 document.addEventListener('pointerdown', e => {
@@ -504,7 +557,7 @@ async function loadTable(){
   try {
     let d = await api({ all: 'true' });
     if (!Array.isArray(d)) d = d.elements || Object.values(d);
-    d = d.filter(x => x && x.symbol);
+    d = d.filter(x => x && x.symbol).sort((a, b) => a.number - b.number);
     state.all = d; drawTable();
   } catch {
     out.innerHTML = errorCard('Could not load the table');
@@ -517,13 +570,30 @@ function drawTable(){
   $$('#legend .chip').forEach(ch => ch.onclick = () => {
     state.filter = ch.dataset.c || null;
     $$('#legend .chip').forEach(x => x.classList.toggle('sel', x === ch));
-    $$('#out-table .cell').forEach(c => c.classList.toggle('dim', !!state.filter && c.dataset.c !== state.filter));
+    applyTableFilter();
   });
-  const cells = state.all.map((e, i) => `<button class="cell ripple" style="--h:${hueOf(e.category)};grid-column:${e.xpos};grid-row:${e.ypos};animation-delay:${Math.min(i * 6, 700)}ms" data-i="${i}" data-c="${esc(e.category)}" title="${esc(e.name)}">
+  const cells = state.all.map((e, i) => `<button class="cell ripple" style="--h:${hueOf(e.category)};grid-column:${e.xpos};grid-row:${e.ypos};animation-delay:${Math.min(i * 6, 700)}ms" data-i="${i}" data-c="${esc(e.category)}" data-q="${esc((e.name + ' ' + e.symbol + ' ' + e.number).toLowerCase())}" title="${esc(e.name)}">
     <span class="n">${esc(e.number)}</span><span class="s">${esc(e.symbol)}</span><span class="m">${esc(e.name)}</span></button>`).join('');
-  $('#out-table').innerHTML = `<div class="pt-scroll"><div class="pt">${cells}</div></div>`;
+  $('#out-table').innerHTML = `<div class="pt-scroll"><div class="pt${state.layout === 'list' ? ' list' : ''}">${cells}</div></div><div class="pt-empty" id="ptEmpty">No elements match your filter.</div>`;
   $$('#out-table .cell').forEach(c => c.onclick = () => openDialog(state.all[c.dataset.i]));
+  applyTableFilter();
 }
+function applyTableFilter(){
+  const t = state.tq; let shown = 0;
+  $$('#out-table .cell').forEach(c => {
+    const dim = (!!state.filter && c.dataset.c !== state.filter) || (!!t && !c.dataset.q.includes(t));
+    c.classList.toggle('dim', dim); if (!dim) shown++;
+  });
+  const empty = $('#ptEmpty'); if (empty) empty.style.display = shown ? 'none' : 'block';
+}
+$('#tq').oninput = e => { state.tq = e.target.value.trim().toLowerCase(); applyTableFilter(); };
+function setLayout(l){
+  state.layout = l;
+  $$('#layout button').forEach(b => b.classList.toggle('sel', b.dataset.l === l));
+  const pt = $('#out-table .pt'); if (pt) pt.classList.toggle('list', l === 'list');
+}
+$$('#layout button').forEach(b => b.onclick = () => setLayout(b.dataset.l));
+setLayout(state.layout);
 const dlg = $('#dlg');
 function openDialog(el){
   $('#dlgBody').innerHTML = renderDetail(el); dlg.showModal(); animateBars(dlg); $('#dlgBody').scrollTop = 0;
