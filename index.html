@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#6750A4">
+<title>Periodic Elements</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap" rel="stylesheet">
+<style>
+/* ---------- Material Design 3 tokens ---------- */
+:root{
+  --primary:#6750A4;--on-primary:#fff;--primary-container:#EADDFF;--on-primary-container:#21005D;
+  --secondary-container:#E8DEF8;--on-secondary-container:#1D192B;
+  --tertiary:#7D5260;--tertiary-container:#FFD8E4;--on-tertiary-container:#31111D;
+  --surface:#FEF7FF;--on-surface:#1D1B20;--surface-variant:#E7E0EC;--on-surface-variant:#49454F;
+  --outline:#79747E;--outline-variant:#CAC4D0;
+  --sc-low:#F7F2FA;--sc:#F3EDF7;--sc-high:#ECE6F0;--sc-highest:#E6E0E9;
+  --error:#B3261E;--error-container:#F9DEDC;--inverse-surface:#322F35;--inverse-on-surface:#F5EFF7;
+  --cat-l:88%;--cat-s:45%;--cat-text:#1D1B20;
+  --ease-emph:cubic-bezier(.2,0,0,1);--ease-emph-dec:cubic-bezier(.05,.7,.1,1);--ease-std:cubic-bezier(.2,0,0,1);
+  --shadow1:0 1px 2px rgba(0,0,0,.3),0 1px 3px 1px rgba(0,0,0,.15);
+  --shadow3:0 1px 3px rgba(0,0,0,.3),0 4px 8px 3px rgba(0,0,0,.15);
+}
+:root[data-theme="dark"]{
+  --primary:#D0BCFF;--on-primary:#381E72;--primary-container:#4F378B;--on-primary-container:#EADDFF;
+  --secondary-container:#4A4458;--on-secondary-container:#E8DEF8;
+  --tertiary:#EFB8C8;--tertiary-container:#633B48;--on-tertiary-container:#FFD8E4;
+  --surface:#141218;--on-surface:#E6E0E9;--surface-variant:#49454F;--on-surface-variant:#CAC4D0;
+  --outline:#938F99;--outline-variant:#49454F;
+  --sc-low:#1D1B20;--sc:#211F26;--sc-high:#2B2930;--sc-highest:#36343B;
+  --error:#F2B8B5;--error-container:#8C1D18;--inverse-surface:#E6E0E9;--inverse-on-surface:#322F35;
+  --cat-l:26%;--cat-s:35%;--cat-text:#E6E0E9;
+}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html{color-scheme:light dark}
+body{font-family:Roboto,system-ui,sans-serif;background:var(--surface);color:var(--on-surface);min-height:100vh;
+  transition:background .3s var(--ease-std),color .3s var(--ease-std);overflow-x:hidden}
+.icon{font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;
+  display:inline-block;white-space:nowrap;direction:ltr;-webkit-font-smoothing:antialiased;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;
+  transition:font-variation-settings .25s var(--ease-std);user-select:none}
+.icon.fill{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+
+/* ---------- State layer + ripple ---------- */
+.ripple{position:relative;overflow:hidden;isolation:isolate}
+.ripple::before{content:"";position:absolute;inset:0;background:currentColor;opacity:0;transition:opacity .15s;z-index:-1;pointer-events:none}
+.ripple:hover::before{opacity:.08}
+.ripple:focus-visible::before{opacity:.12}
+.ripple:active::before{opacity:.12}
+.ripple-wave{position:absolute;border-radius:50%;background:currentColor;opacity:.18;transform:scale(0);animation:ripple .55s var(--ease-emph-dec) forwards;pointer-events:none;z-index:-1}
+@keyframes ripple{to{transform:scale(1);opacity:0}}
+
+/* ---------- Layout ---------- */
+.app{display:grid;grid-template-rows:auto 1fr auto;min-height:100vh}
+.top-bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:8px;padding:8px 16px 8px 16px;height:64px;
+  background:var(--surface);transition:background .2s,box-shadow .2s}
+.top-bar.scrolled{background:var(--sc)}
+.top-bar h1{font-size:22px;font-weight:400;flex:1;display:flex;align-items:center;gap:12px}
+.logo{width:36px;height:36px;border-radius:12px;background:var(--primary-container);color:var(--on-primary-container);display:grid;place-items:center}
+.icon-btn{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:var(--on-surface-variant)}
+.progress-linear{position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--secondary-container);overflow:hidden;opacity:0;transition:opacity .2s}
+.progress-linear.on{opacity:1}
+.progress-linear::after{content:"";position:absolute;inset:0;background:var(--primary);border-radius:2px;animation:linear 1.6s infinite var(--ease-std)}
+@keyframes linear{0%{transform:translateX(-100%) scaleX(.3)}50%{transform:translateX(10%) scaleX(.6)}100%{transform:translateX(100%) scaleX(.3)}}
+
+main{padding:8px 16px 120px;max-width:1240px;width:100%;margin:0 auto}
+.view{display:none}
+.view.active{display:block;animation:fade-through .45s var(--ease-emph-dec)}
+@keyframes fade-through{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+.headline{font-size:32px;line-height:40px;font-weight:400;margin:8px 0 4px}
+.sub{color:var(--on-surface-variant);font-size:14px;line-height:20px;margin-bottom:20px;letter-spacing:.25px}
+
+/* ---------- Navigation bar / rail ---------- */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;justify-content:space-around;background:var(--sc);padding:12px 8px 16px;height:80px}
+.nav-item{flex:1;max-width:160px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;font-weight:500;letter-spacing:.5px;color:var(--on-surface-variant)}
+.nav-pill{width:64px;height:32px;border-radius:16px;display:grid;place-items:center;position:relative;overflow:hidden;transition:background .25s var(--ease-std)}
+.nav-pill::before{content:"";position:absolute;inset:0;background:var(--secondary-container);border-radius:16px;transform:scaleX(0);transition:transform .35s var(--ease-emph)}
+.nav-pill .icon{position:relative}
+.nav-item.active{color:var(--on-surface)}
+.nav-item.active .nav-pill::before{transform:scaleX(1)}
+.nav-item.active .icon{color:var(--on-secondary-container);font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+@media(min-width:840px){
+  .nav{top:64px;bottom:0;right:auto;width:80px;flex-direction:column;justify-content:flex-start;gap:12px;height:auto;padding:24px 0;background:var(--surface)}
+  .nav-item{flex:none;max-width:none}
+  main{padding-left:96px}
+}
+
+/* ---------- Text field ---------- */
+.search-row{display:flex;flex-direction:column;gap:16px;margin-bottom:20px}
+.field{position:relative;display:flex;align-items:center;height:56px;border-radius:28px;background:var(--sc-high);padding:0 8px 0 16px;gap:12px;transition:background .2s,box-shadow .2s;box-shadow:inset 0 0 0 1px transparent}
+.field:focus-within{background:var(--sc-highest);box-shadow:inset 0 0 0 2px var(--primary)}
+.field input{flex:1;height:100%;border:0;outline:0;background:none;font:inherit;font-size:16px;color:var(--on-surface);min-width:0}
+.field input::placeholder{color:var(--on-surface-variant)}
+.field .lead{color:var(--on-surface-variant)}
+.field:focus-within .lead{color:var(--primary)}
+
+/* ---------- Segmented button, chips, switch ---------- */
+.seg{display:inline-flex;border:1px solid var(--outline);border-radius:20px;overflow:hidden;align-self:flex-start;max-width:100%}
+.seg button{height:40px;padding:0 16px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;letter-spacing:.1px;color:var(--on-surface);border-right:1px solid var(--outline);transition:background .2s,color .2s}
+.seg button:last-child{border-right:0}
+.seg button .icon{font-size:18px;width:0;opacity:0;transition:width .25s var(--ease-emph),opacity .2s}
+.seg button.sel{background:var(--secondary-container);color:var(--on-secondary-container)}
+.seg button.sel .icon{width:18px;opacity:1}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{height:32px;padding:0 12px;border-radius:8px;border:1px solid var(--outline);display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:var(--on-surface-variant);transition:background .2s,color .2s,border-color .2s}
+.chip .icon{font-size:18px}
+.chip.sel{background:var(--secondary-container);border-color:transparent;color:var(--on-secondary-container)}
+.chip.static{border:0;background:var(--sc-high);cursor:default}
+.chip.tonal-p{background:var(--primary-container);color:var(--on-primary-container);border:0}
+.chip.tonal-t{background:var(--tertiary-container);color:var(--on-tertiary-container);border:0}
+.switch-row{display:flex;align-items:center;gap:16px;font-size:14px;color:var(--on-surface-variant);cursor:pointer;user-select:none}
+.switch{position:relative;width:52px;height:32px;border-radius:16px;border:2px solid var(--outline);background:var(--sc-highest);transition:background .25s,border-color .25s;flex:none}
+.switch::after{content:"";position:absolute;top:50%;left:6px;width:16px;height:16px;border-radius:50%;background:var(--outline);transform:translateY(-50%);transition:all .3s var(--ease-emph)}
+.switch.on{background:var(--primary);border-color:var(--primary)}
+.switch.on::after{left:24px;width:24px;height:24px;background:var(--on-primary);margin-left:-4px}
+
+/* ---------- Buttons / FAB ---------- */
+.btn{height:40px;padding:0 24px;border-radius:20px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:500;letter-spacing:.1px}
+.btn.filled{background:var(--primary);color:var(--on-primary)}
+.btn.tonal{background:var(--secondary-container);color:var(--on-secondary-container)}
+.btn.text{color:var(--primary);padding:0 12px}
+.btn .icon{font-size:18px}
+.fab-ext{height:56px;padding:0 20px;border-radius:16px;background:var(--primary-container);color:var(--on-primary-container);display:inline-flex;align-items:center;gap:12px;font-size:16px;font-weight:500;box-shadow:var(--shadow3);transition:box-shadow .2s,transform .2s var(--ease-emph)}
+.fab-ext:active{transform:scale(.96)}
+.fab-ext.rolling .icon{animation:spin .7s var(--ease-emph)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.recent{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:24px;min-height:32px}
+.recent .label{font-size:12px;color:var(--on-surface-variant);letter-spacing:.5px;margin-right:4px}
+
+/* ---------- Cards ---------- */
+.card{border-radius:28px;background:var(--sc-low);padding:24px;position:relative;overflow:hidden}
+.card.filled{background:var(--sc-highest)}
+.hero{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
+.tile{width:140px;height:140px;border-radius:28px;display:flex;flex-direction:column;justify-content:space-between;padding:12px 14px;
+  box-shadow:var(--shadow1);animation:pop .6s var(--ease-emph-dec) both;position:relative}
+.tile .no{font-size:16px;font-weight:500}
+.tile .sym{font-size:56px;font-weight:500;line-height:1;text-align:center;letter-spacing:-1px}
+.tile .mass{font-size:12px;text-align:center;opacity:.85;font-family:'Roboto Mono',monospace}
+@keyframes pop{from{transform:scale(.6) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
+.hero h2{font-size:45px;line-height:52px;font-weight:400;margin-bottom:12px;overflow-wrap:anywhere}
+.hero .chips{margin-bottom:0}
+.summary-text{margin-top:20px;font-size:16px;line-height:24px;letter-spacing:.5px;color:var(--on-surface)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:16px}
+.prop{background:var(--sc-high);border-radius:20px;padding:16px;display:flex;gap:14px;align-items:flex-start;animation:rise .5s var(--ease-emph-dec) both;min-width:0}
+.prop .pi{width:40px;height:40px;border-radius:12px;background:var(--primary-container);color:var(--on-primary-container);display:grid;place-items:center;flex:none}
+.prop .pl{font-size:12px;letter-spacing:.5px;color:var(--on-surface-variant)}
+.prop .pv{font-size:18px;font-weight:500;margin-top:2px;overflow-wrap:anywhere}
+.prop .pv small{font-size:12px;font-weight:400;color:var(--on-surface-variant);margin-left:3px}
+.prop .pv.mono{font-family:'Roboto Mono',monospace;font-size:15px}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.section-title{font-size:22px;font-weight:400;margin:28px 0 4px;display:flex;align-items:center;gap:10px}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:16px}
+.shell-wrap{display:grid;place-items:center}
+.ion{display:flex;flex-direction:column;gap:8px;max-height:260px;overflow:auto;padding-right:4px}
+.ion-row{display:grid;grid-template-columns:40px 1fr 72px;gap:10px;align-items:center;font-size:12px;color:var(--on-surface-variant)}
+.ion-bar{height:10px;border-radius:5px;background:var(--sc-highest);overflow:hidden}
+.ion-bar i{display:block;height:100%;width:0;border-radius:5px;background:var(--primary);transition:width .9s var(--ease-emph-dec)}
+.ion-row b{font-weight:500;color:var(--on-surface);text-align:right;font-family:'Roboto Mono',monospace}
+.links{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.spectral{margin-top:16px;border-radius:16px;overflow:hidden;background:var(--sc-high)}
+.spectral img{width:100%;display:block;max-height:120px;object-fit:cover}
+.shell-key{font-size:12px;color:var(--on-surface-variant);margin-top:8px;text-align:center;font-family:'Roboto Mono',monospace}
+@media(max-width:700px){
+  .hero{grid-template-columns:1fr;justify-items:start}
+  .hero h2{font-size:36px;line-height:44px}
+  .two{grid-template-columns:1fr}
+}
+
+/* ---------- Loader (M3 circular indeterminate) + skeleton ---------- */
+.loader{display:grid;place-items:center;padding:56px 0}
+.circ{width:48px;height:48px;animation:rot 1.6s linear infinite}
+.circ circle{fill:none;stroke:var(--primary);stroke-width:4;stroke-linecap:round;stroke-dasharray:1,200;stroke-dashoffset:0;animation:dash 1.5s var(--ease-std) infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+@keyframes dash{0%{stroke-dasharray:1,126;stroke-dashoffset:0}50%{stroke-dasharray:90,126;stroke-dashoffset:-35}100%{stroke-dasharray:90,126;stroke-dashoffset:-124}}
+.skel{border-radius:16px;background:linear-gradient(90deg,var(--sc-high) 25%,var(--sc-highest) 50%,var(--sc-high) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite linear}
+@keyframes shimmer{to{background-position:-200% 0}}
+
+/* ---------- Empty / placeholder ---------- */
+.empty{display:grid;place-items:center;text-align:center;padding:56px 16px;color:var(--on-surface-variant);gap:12px}
+.empty .big{width:96px;height:96px;border-radius:32px;background:var(--primary-container);color:var(--on-primary-container);display:grid;place-items:center;animation:float 3.5s ease-in-out infinite}
+.empty .big .icon{font-size:48px}
+@keyframes float{50%{transform:translateY(-8px) rotate(3deg)}}
+
+/* ---------- Periodic table ---------- */
+.pt-scroll{overflow-x:auto;padding:4px 4px 16px;margin:0 -4px}
+.pt{display:grid;grid-template-columns:repeat(18,minmax(56px,1fr));grid-auto-rows:62px;gap:4px;min-width:1100px}
+.cell{border-radius:12px;padding:4px 6px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;
+  background:hsl(var(--h) var(--cat-s) var(--cat-l));color:var(--cat-text);animation:rise .4s var(--ease-emph-dec) both;transition:transform .2s var(--ease-emph),opacity .25s,filter .25s}
+.cell:hover{transform:scale(1.12);z-index:2;box-shadow:var(--shadow3)}
+.cell .n{font-size:10px;opacity:.8}
+.cell .s{font-size:20px;font-weight:500;line-height:1}
+.cell .m{font-size:9px;opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell.dim{opacity:.18;filter:grayscale(.6)}
+.legend{margin-bottom:16px}
+.legend .chip{text-transform:capitalize}
+.dot{width:10px;height:10px;border-radius:50%;background:hsl(var(--h) 60% 55%)}
+
+/* ---------- Dialog / snackbar ---------- */
+dialog{border:0;border-radius:28px;padding:0;background:var(--surface);color:var(--on-surface);width:min(680px,calc(100vw - 24px));max-height:calc(100vh - 32px);box-shadow:var(--shadow3);overflow:hidden}
+dialog[open]{animation:dlg .35s var(--ease-emph-dec)}
+dialog::backdrop{background:rgba(0,0,0,.4);backdrop-filter:blur(2px);animation:fade .3s}
+@keyframes dlg{from{opacity:0;transform:translateY(24px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}}
+.dlg-head{display:flex;justify-content:flex-end;padding:8px 8px 0}
+.dlg-body{padding:0 20px 24px;overflow:auto;max-height:calc(100vh - 110px)}
+.snack{position:fixed;left:50%;bottom:104px;transform:translate(-50%,24px);opacity:0;pointer-events:none;z-index:60;background:var(--inverse-surface);color:var(--inverse-on-surface);
+  min-height:48px;border-radius:4px;padding:6px 8px 6px 16px;display:flex;align-items:center;gap:12px;font-size:14px;box-shadow:var(--shadow3);max-width:calc(100vw - 24px);transition:all .3s var(--ease-emph-dec)}
+.snack.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.snack .btn{color:var(--primary);height:36px}
+:root:not([data-theme="dark"]) .snack .btn{color:#D0BCFF}
+@media(min-width:840px){.snack{bottom:24px}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top-bar" id="topbar">
+    <h1><span class="logo"><span class="icon fill">science</span></span>Periodic Elements</h1>
+    <button class="icon-btn ripple" id="themeBtn" aria-label="Toggle theme"><span class="icon" id="themeIcon">dark_mode</span></button>
+    <div class="progress-linear" id="linear"></div>
+  </header>
+
+  <main>
+    <!-- Search -->
+    <section class="view active" id="view-search">
+      <h2 class="headline">Look up an element</h2>
+      <p class="sub">Search by name, symbol or atomic number.</p>
+      <div class="search-row">
+        <form class="field" id="form" autocomplete="off">
+          <span class="icon lead">search</span>
+          <input id="q" placeholder="Try gold, Fe or 79" aria-label="Search elements" enterkeyhint="search">
+          <button type="button" class="icon-btn ripple" id="clear" aria-label="Clear" style="display:none"><span class="icon">close</span></button>
+        </form>
+        <div class="seg" id="mode" role="group" aria-label="Search by">
+          <button type="button" class="ripple sel" data-m="auto"><span class="icon">check</span>Auto</button>
+          <button type="button" class="ripple" data-m="name"><span class="icon">check</span>Name</button>
+          <button type="button" class="ripple" data-m="symbol"><span class="icon">check</span>Symbol</button>
+          <button type="button" class="ripple" data-m="number"><span class="icon">check</span>Number</button>
+        </div>
+        <div class="switch-row" data-switch><span class="switch" role="switch" aria-checked="false" tabindex="0"></span>Summary only</div>
+      </div>
+      <div class="recent" id="recent"></div>
+      <div id="out-search">
+        <div class="empty"><div class="big"><span class="icon fill">biotech</span></div><div style="font-size:22px;color:var(--on-surface)">Nothing here yet</div><div>Search for an element to see its properties.</div></div>
+      </div>
+    </section>
+
+    <!-- Random -->
+    <section class="view" id="view-random">
+      <h2 class="headline">Random element</h2>
+      <p class="sub">Roll the dice and learn something new.</p>
+      <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin-bottom:24px">
+        <button class="fab-ext ripple" id="roll"><span class="icon">casino</span>Roll element</button>
+        <div class="switch-row" data-switch><span class="switch" role="switch" aria-checked="false" tabindex="0"></span>Summary only</div>
+      </div>
+      <div id="out-random"></div>
+    </section>
+
+    <!-- Table -->
+    <section class="view" id="view-table">
+      <h2 class="headline">Periodic table</h2>
+      <p class="sub">Tap any element for the full details. Filter by category below.</p>
+      <div class="chips legend" id="legend"></div>
+      <div id="out-table"></div>
+    </section>
+  </main>
+
+  <nav class="nav" aria-label="Primary">
+    <button class="nav-item ripple active" data-v="search"><span class="nav-pill"><span class="icon">search</span></span>Search</button>
+    <button class="nav-item ripple" data-v="random"><span class="nav-pill"><span class="icon">casino</span></span>Random</button>
+    <button class="nav-item ripple" data-v="table"><span class="nav-pill"><span class="icon">grid_view</span></span>Table</button>
+  </nav>
+</div>
+
+<dialog id="dlg"><div class="dlg-head"><button class="icon-btn ripple" id="dlgClose" aria-label="Close"><span class="icon">close</span></button></div><div class="dlg-body" id="dlgBody"></div></dialog>
+<div class="snack" id="snack" role="status"><span id="snackText"></span><button class="btn text ripple" id="snackBtn">Dismiss</button></div>
+
+<script>
+const API = 'https://periodic-elements-api.periodic-elements-api.workers.dev/api';
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store = {
+  get(k, d){ try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+};
+const state = { mode: 'auto', summary: false, all: null, filter: null };
+
+/* ---------- Ripple ---------- */
+document.addEventListener('pointerdown', e => {
+  const t = e.target.closest('.ripple'); if (!t) return;
+  const r = t.getBoundingClientRect(), size = Math.max(r.width, r.height) * 2;
+  const w = document.createElement('span'); w.className = 'ripple-wave';
+  w.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX - r.left - size / 2}px;top:${e.clientY - r.top - size / 2}px`;
+  t.appendChild(w); setTimeout(() => w.remove(), 600);
+});
+
+/* ---------- Theme ---------- */
+function applyTheme(t){
+  document.documentElement.dataset.theme = t;
+  $('#themeIcon').textContent = t === 'dark' ? 'light_mode' : 'dark_mode';
+  $('meta[name=theme-color]').content = t === 'dark' ? '#141218' : '#FEF7FF';
+}
+applyTheme(store.get('theme', matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+$('#themeBtn').onclick = () => { const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; applyTheme(t); store.set('theme', t); };
+addEventListener('scroll', () => $('#topbar').classList.toggle('scrolled', scrollY > 8), { passive: true });
+
+/* ---------- Snackbar ---------- */
+let snackT;
+function snack(msg){
+  $('#snackText').textContent = msg; $('#snack').classList.add('show');
+  clearTimeout(snackT); snackT = setTimeout(() => $('#snack').classList.remove('show'), 4500);
+}
+$('#snackBtn').onclick = () => $('#snack').classList.remove('show');
+
+/* ---------- API ---------- */
+let pending = 0;
+async function api(params){
+  pending++; $('#linear').classList.add('on');
+  try {
+    const res = await fetch(API + '?' + new URLSearchParams(params));
+    return await res.json();
+  } finally { if (--pending === 0) $('#linear').classList.remove('on'); }
+}
+const loaderHTML = `<div class="loader"><svg class="circ" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20"/></svg></div>`;
+const skeletonHTML = `<div class="card"><div class="hero"><div class="skel" style="width:140px;height:140px;border-radius:28px"></div><div style="flex:1;display:grid;gap:12px;width:100%"><div class="skel" style="height:44px;width:60%"></div><div class="skel" style="height:32px;width:40%"></div></div></div><div class="grid">${'<div class="skel" style="height:72px"></div>'.repeat(6)}</div></div>`;
+
+/* ---------- Helpers ---------- */
+function textOn(hex){
+  const h = (hex || '').replace('#', ''); if (h.length !== 6) return null;
+  const [r, g, b] = [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16) / 255).map(c => c <= .03928 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4);
+  return (.2126 * r + .7152 * g + .0722 * b) > .45 ? '#1D1B20' : '#FFFFFF';
+}
+const num = (v, unit = '') => (v === null || v === undefined || v === '') ? '<span style="color:var(--on-surface-variant)">N/A</span>' : `${esc(v)}${unit ? `<small>${unit}</small>` : ''}`;
+const hueOf = s => { let h = 0; for (const c of String(s || '')) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
+
+/* ---------- Detail renderer ---------- */
+function props(el){
+  return [
+    ['scale', 'Atomic mass', num(el.atomic_mass, 'u')],
+    ['water_drop', 'Density', num(el.density, 'g/cm³')],
+    ['ac_unit', 'Melting point', num(el.melt, 'K')],
+    ['local_fire_department', 'Boiling point', num(el.boil, 'K')],
+    ['thermostat', 'Molar heat', num(el.molar_heat, 'J/mol·K')],
+    ['view_timeline', 'Period', num(el.period)],
+    ['bolt', 'Electronegativity', num(el.electronegativity_pauling)],
+    ['electric_bolt', 'Electron affinity', num(el.electron_affinity, 'kJ/mol')],
+    ['hub', 'Electron config', `<span class="pv mono" style="font-size:15px">${el.electron_configuration ? esc(el.electron_configuration) : 'N/A'}</span>`, true],
+    ['search_insights', 'Discovered by', el.discovered_by ? esc(el.discovered_by) : 'Unknown'],
+    ['badge', 'Named by', el.named_by ? esc(el.named_by) : 'Unknown'],
+    ['visibility', 'Appearance', el.appearance ? esc(el.appearance) : 'N/A']
+  ];
+}
+function shellSVG(shells, color){
+  const cx = 110, base = 26, step = 16, size = 220;
+  let g = `<circle cx="${cx}" cy="${cx}" r="14" fill="${color}"/>`;
+  shells.forEach((n, i) => {
+    const r = base + step * i;
+    let els = '';
+    for (let k = 0; k < n; k++){
+      const a = (2 * Math.PI * k) / n;
+      els += `<circle cx="${(cx + r * Math.cos(a)).toFixed(2)}" cy="${(cx + r * Math.sin(a)).toFixed(2)}" r="3.4" fill="var(--primary)"/>`;
+    }
+    g = `<circle cx="${cx}" cy="${cx}" r="${r}" fill="none" stroke="var(--outline-variant)" stroke-width="1"/>` + g;
+    g += `<g style="transform-origin:${cx}px ${cx}px;animation:rot ${8 + i * 5}s linear infinite ${i % 2 ? 'reverse' : ''}">${els}</g>`;
+  });
+  return `<svg viewBox="0 0 ${size} ${size}" width="100%" style="max-width:260px">${g}</svg>`;
+}
+function renderDetail(el){
+  const bg = el['cpk-hex'] ? '#' + String(el['cpk-hex']).replace('#', '') : null;
+  const fg = textOn(bg);
+  const tile = bg && fg ? `background:${bg};color:${fg}` : 'background:var(--primary-container);color:var(--on-primary-container)';
+  const shells = Array.isArray(el.shells) ? el.shells : [];
+  const ions = Array.isArray(el.ionization_energies) ? el.ionization_energies : [];
+  const maxIon = Math.max(1, ...ions);
+  const ps = props(el).map((p, i) => `<div class="prop" style="animation-delay:${i * 40}ms"><div class="pi"><span class="icon">${p[0]}</span></div><div style="min-width:0"><div class="pl">${p[1]}</div><div class="pv${p[3] ? ' mono' : ''}">${p[2]}</div></div></div>`).join('');
+  return `
+  <div class="card filled">
+    <div class="hero">
+      <div class="tile" style="${tile}"><span class="no">${esc(el.number)}</span><span class="sym">${esc(el.symbol)}</span><span class="mass">${esc(el.atomic_mass ?? '')}</span></div>
+      <div>
+        <h2>${esc(el.name)}</h2>
+        <div class="chips">
+          ${el.category ? `<span class="chip static tonal-p"><span class="icon">category</span>${esc(el.category)}</span>` : ''}
+          ${el.phase ? `<span class="chip static tonal-t"><span class="icon">${el.phase === 'Gas' ? 'air' : el.phase === 'Liquid' ? 'water_drop' : 'deployed_code'}</span>${esc(el.phase)}</span>` : ''}
+          <span class="chip static"><span class="icon">grid_view</span>Group ${esc(el.xpos ?? '?')} · Period ${esc(el.period ?? '?')}</span>
+        </div>
+      </div>
+    </div>
+    ${el.summary ? `<p class="summary-text">${esc(el.summary)}</p>` : ''}
+    <div class="links">
+      ${el.source ? `<a class="btn filled ripple" href="${esc(el.source)}" target="_blank" rel="noopener" style="text-decoration:none"><span class="icon">open_in_new</span>Wikipedia</a>` : ''}
+      <button class="btn tonal ripple" data-copy="${esc(el.name)}"><span class="icon">content_copy</span>Copy name</button>
+    </div>
+  </div>
+  <div class="section-title"><span class="icon" style="color:var(--primary)">tune</span>Properties</div>
+  <div class="grid">${ps}</div>
+  ${(shells.length || ions.length) ? `<div class="two">
+    ${shells.length ? `<div class="card"><div class="section-title" style="margin-top:0"><span class="icon" style="color:var(--primary)">orbit</span>Electron shells</div><div class="shell-wrap">${shellSVG(shells, bg || 'var(--tertiary)')}</div><div class="shell-key">${shells.join(' · ')}</div></div>` : ''}
+    ${ions.length ? `<div class="card"><div class="section-title" style="margin-top:0"><span class="icon" style="color:var(--primary)">bolt</span>Ionization energies</div><div class="ion">${ions.map((v, i) => `<div class="ion-row"><span>${i + 1}st</span><div class="ion-bar"><i data-w="${(v / maxIon * 100).toFixed(1)}"></i></div><b>${esc(v)}</b></div>`).join('').replace(/>(\d+)st</g, (m, n) => `>${n}${n==='1'?'st':n==='2'?'nd':n==='3'?'rd':'th'}<`)}</div><div class="shell-key">kJ/mol</div></div>` : ''}
+  </div>` : ''}
+  ${el.spectral_img ? `<div class="section-title"><span class="icon" style="color:var(--primary)">spectra</span>Spectrum</div><div class="spectral"><img src="${esc(el.spectral_img)}" alt="${esc(el.name)} spectral lines" loading="lazy" onerror="this.parentNode.remove()"></div>` : ''}`;
+}
+function renderSummary(text, title){
+  return `<div class="card filled"><div class="chips" style="margin-bottom:16px"><span class="chip static tonal-p"><span class="icon">article</span>${esc(title || 'Summary')}</span></div><p class="summary-text" style="margin-top:0;font-size:18px;line-height:28px">${esc(text)}</p></div>`;
+}
+function animateBars(root){ requestAnimationFrame(() => requestAnimationFrame(() => $$('.ion-bar i', root).forEach(b => b.style.width = b.dataset.w + '%'))); }
+function errorCard(msg){
+  return `<div class="empty"><div class="big" style="background:var(--error-container);color:var(--error)"><span class="icon fill">error</span></div><div style="font-size:22px;color:var(--on-surface)">${esc(msg)}</div><div>Check the spelling and try again.</div></div>`;
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-copy]'); if (!b) return;
+  navigator.clipboard?.writeText(b.dataset.copy).then(() => snack('Copied to clipboard'), () => snack('Could not copy'));
+});
+
+/* ---------- Navigation ---------- */
+function go(v){
+  $$('.view').forEach(s => s.classList.toggle('active', s.id === 'view-' + v));
+  $$('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.v === v));
+  if (v === 'table') loadTable();
+  if (v === 'random' && !$('#out-random').children.length) roll();
+  history.replaceState(null, '', '#' + v); scrollTo({ top: 0 });
+}
+$$('.nav-item').forEach(n => n.onclick = () => go(n.dataset.v));
+
+/* ---------- Switches / segmented ---------- */
+$$('[data-switch]').forEach(row => {
+  const sw = $('.switch', row);
+  const toggle = () => {
+    state.summary = !state.summary;
+    $$('.switch').forEach(s => { s.classList.toggle('on', state.summary); s.setAttribute('aria-checked', state.summary); });
+  };
+  row.onclick = toggle;
+  sw.onkeydown = e => { if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); toggle(); } };
+});
+$$('#mode button').forEach(b => b.onclick = () => {
+  state.mode = b.dataset.m;
+  $$('#mode button').forEach(x => x.classList.toggle('sel', x === b));
+  const ph = { auto: 'Try gold, Fe or 79', name: 'e.g. hydrogen', symbol: 'e.g. He', number: 'e.g. 26' };
+  $('#q').placeholder = ph[state.mode];
+});
+
+/* ---------- Search ---------- */
+const q = $('#q');
+q.oninput = () => $('#clear').style.display = q.value ? '' : 'none';
+$('#clear').onclick = () => { q.value = ''; q.oninput(); q.focus(); };
+function recentRender(){
+  const r = store.get('recent', []);
+  $('#recent').innerHTML = r.length ? `<span class="label">RECENT</span>` + r.map(x => `<button class="chip ripple" data-r="${esc(x)}"><span class="icon">history</span>${esc(x)}</button>`).join('') : '';
+  $$('#recent [data-r]').forEach(c => c.onclick = () => { q.value = c.dataset.r; q.oninput(); search(); });
+}
+async function lookup(term){
+  const t = term.trim(); const enc = encodeURIComponent;
+  const sum = state.summary ? { summaryOnly: 'true' } : {};
+  const tryKey = (k, v) => api({ [k]: v, ...sum });
+  if (state.mode === 'name') return tryKey('name', t);
+  if (state.mode === 'symbol') return tryKey('symbol', t);
+  if (state.mode === 'number') return tryKey('number', t);
+  const order = /^\d+$/.test(t) ? ['number'] : t.length <= 2 ? ['symbol', 'name'] : ['name', 'symbol'];
+  let d;
+  for (const k of order){ d = await tryKey(k, t); if (!d.error) return d; }
+  return d;
+}
+async function search(){
+  const term = q.value.trim();
+  if (!term){ snack('Type something to search'); q.focus(); return; }
+  const out = $('#out-search'); out.innerHTML = state.summary ? loaderHTML : skeletonHTML;
+  try {
+    const d = await lookup(term);
+    if (d.error){ out.innerHTML = errorCard(d.error); return; }
+    out.innerHTML = state.summary ? renderSummary(d.summary, term) : renderDetail(d);
+    animateBars(out);
+    const r = [term, ...store.get('recent', []).filter(x => x.toLowerCase() !== term.toLowerCase())].slice(0, 5);
+    store.set('recent', r); recentRender();
+  } catch {
+    out.innerHTML = errorCard('Network error'); snack('Could not reach the API');
+  }
+}
+$('#form').onsubmit = e => { e.preventDefault(); search(); q.blur(); };
+
+/* ---------- Random ---------- */
+async function roll(){
+  const btn = $('#roll'); btn.classList.remove('rolling'); void btn.offsetWidth; btn.classList.add('rolling');
+  const out = $('#out-random'); out.innerHTML = state.summary ? loaderHTML : skeletonHTML;
+  try {
+    const d = await api({ random: 'true', ...(state.summary ? { summaryOnly: 'true' } : {}) });
+    if (d.error){ out.innerHTML = errorCard(d.error); return; }
+    out.innerHTML = state.summary ? renderSummary(d.summary, 'Random element') : renderDetail(d);
+    animateBars(out);
+  } catch {
+    out.innerHTML = errorCard('Network error'); snack('Could not reach the API');
+  }
+}
+$('#roll').onclick = roll;
+
+/* ---------- Table ---------- */
+async function loadTable(){
+  if (state.all) return;
+  const out = $('#out-table'); out.innerHTML = loaderHTML;
+  try {
+    let d = await api({ all: 'true' });
+    if (!Array.isArray(d)) d = d.elements || Object.values(d);
+    d = d.filter(x => x && x.symbol);
+    state.all = d; drawTable();
+  } catch {
+    out.innerHTML = errorCard('Could not load the table');
+    snack('Could not reach the API');
+  }
+}
+function drawTable(){
+  const cats = [...new Set(state.all.map(e => e.category).filter(Boolean))];
+  $('#legend').innerHTML = `<button class="chip ripple sel" data-c="">All</button>` + cats.map(c => `<button class="chip ripple" data-c="${esc(c)}"><span class="dot" style="--h:${hueOf(c)}"></span>${esc(c)}</button>`).join('');
+  $$('#legend .chip').forEach(ch => ch.onclick = () => {
+    state.filter = ch.dataset.c || null;
+    $$('#legend .chip').forEach(x => x.classList.toggle('sel', x === ch));
+    $$('#out-table .cell').forEach(c => c.classList.toggle('dim', !!state.filter && c.dataset.c !== state.filter));
+  });
+  const cells = state.all.map((e, i) => `<button class="cell ripple" style="--h:${hueOf(e.category)};grid-column:${e.xpos};grid-row:${e.ypos};animation-delay:${Math.min(i * 6, 700)}ms" data-i="${i}" data-c="${esc(e.category)}" title="${esc(e.name)}">
+    <span class="n">${esc(e.number)}</span><span class="s">${esc(e.symbol)}</span><span class="m">${esc(e.name)}</span></button>`).join('');
+  $('#out-table').innerHTML = `<div class="pt-scroll"><div class="pt">${cells}</div></div>`;
+  $$('#out-table .cell').forEach(c => c.onclick = () => openDialog(state.all[c.dataset.i]));
+}
+const dlg = $('#dlg');
+function openDialog(el){
+  $('#dlgBody').innerHTML = renderDetail(el); dlg.showModal(); animateBars(dlg); $('#dlgBody').scrollTop = 0;
+}
+$('#dlgClose').onclick = () => dlg.close();
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+
+/* ---------- Init ---------- */
+recentRender();
+const start = location.hash.slice(1);
+if (['search', 'random', 'table'].includes(start)) go(start);
+</script>
+</body>
+</html>
